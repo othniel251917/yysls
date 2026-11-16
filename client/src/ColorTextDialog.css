@@ -1,0 +1,309 @@
+dialog {
+  --dialog-pad: 1.15rem;
+  box-sizing: border-box;
+  width: min(40rem, calc(100vw - 2rem));
+  max-block-size: calc(100vh - 2rem);
+  margin: auto;
+  padding: var(--dialog-pad);
+  overflow: auto;
+  border: 1px solid #8a6232;
+  background:
+    linear-gradient(180deg, rgb(255 250 240 / 70%), transparent 22%),
+    #f4e7cb;
+  color: #24180f;
+  color-scheme: light;
+  scrollbar-color: #6e2424 #f4e7cb;
+}
+
+dialog[open] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+dialog:modal {
+  overscroll-behavior: contain;
+}
+
+dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background: rgb(8 6 4 / 72%);
+}
+
+dialog :focus-visible {
+  outline-color: #6e2424;
+}
+
+.dialog-head {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: calc(var(--dialog-pad) * -1) calc(var(--dialog-pad) * -1) 0;
+  padding: var(--dialog-pad) var(--dialog-pad) 0.65rem;
+  background: #f4e7cb;
+}
+
+.dialog-head h2 {
+  margin: 0;
+  font-family: "KaiTi", "STKaiti", "楷体", serif;
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+}
+
+.dialog-head button,
+.swatch,
+.copy-button {
+  min-block-size: 3rem;
+  border: 1px solid #8a6232;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: max(1rem, 1em);
+  cursor: pointer;
+}
+
+.dialog-head button {
+  min-inline-size: 4.5rem;
+  padding-inline: 0.85rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+}
+
+.field label,
+#color-text-preview-label {
+  font-weight: 600;
+}
+
+textarea,
+input[type="color"] {
+  font: inherit;
+  font-size: max(1rem, 1em);
+}
+
+#color-text-input,
+.code-field {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #6b5434;
+  background: #fffaf0;
+  color: #24180f;
+  resize: vertical;
+}
+
+#color-text-input {
+  min-block-size: 5.5rem;
+  field-sizing: content;
+}
+
+#color-text-input::placeholder {
+  color: #7a654c;
+}
+
+.code-field {
+  min-block-size: 4.5rem;
+  field-sizing: content;
+  max-block-size: 9rem;
+  font-family: "Cascadia Code", "Sarasa Gothic SC", ui-monospace, monospace;
+  text-autospace: no-autospace;
+  white-space: pre-wrap;
+}
+
+.field p,
+fieldset p {
+  margin: 0;
+}
+
+.sample {
+  display: block;
+  margin-block-start: 0.35rem;
+  font-family: "Cascadia Code", "Sarasa Gothic SC", ui-monospace, monospace;
+  text-autospace: no-autospace;
+  overflow-wrap: anywhere;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0.85rem 0.9rem 0.75rem;
+  border: 1px solid #c4a574;
+}
+
+legend {
+  padding-inline: 0.35rem;
+  font-weight: 600;
+}
+
+.swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-block-start: 0.75rem;
+}
+
+.swatch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-inline-size: 6.75rem;
+  padding-inline: 0.75rem;
+}
+
+.swatch:hover,
+.dialog-head button:hover,
+.copy-button:hover {
+  background: rgb(110 36 36 / 8%);
+}
+
+.chip {
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  border: 1px solid #24180f;
+  forced-color-adjust: none;
+}
+
+.custom-color {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-block-size: 3rem;
+  padding-inline: 0.15rem;
+}
+
+input[type="color"] {
+  inline-size: 3rem;
+  block-size: 3rem;
+  padding: 0.15rem;
+  border: 1px solid #8a6232;
+  background: transparent;
+  cursor: pointer;
+}
+
+.action-status {
+  min-block-size: 1.5rem;
+  margin-block-start: 0.65rem;
+}
+
+.preview {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  min-block-size: 3.25rem;
+  padding: 0.85rem 0.9rem;
+  border: 1px solid #24180f;
+  background: #14110e;
+  color: #f3e6c8;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  forced-color-adjust: none;
+}
+
+.preview-empty {
+  color: #b7a48a;
+}
+
+.copy {
+  position: relative;
+  display: inline-flex;
+}
+
+.copy-button {
+  padding-inline: 1rem;
+  border-color: #3d1515;
+  background: #6e2424;
+  color: #fff8ee;
+}
+
+.copy-button:hover {
+  background: #812c2c;
+}
+
+.copy-button[data-copied]::before,
+.copy-button[data-failed]::before {
+  margin-inline-end: 0.35rem;
+}
+
+.copy-button[data-copied]::before {
+  content: "✓" / "";
+}
+
+.copy-button[data-failed]::before {
+  content: "×" / "";
+}
+
+.tip {
+  position: absolute;
+  inset-block-end: calc(100% + 0.35rem);
+  inset-inline-start: 0;
+  padding: 0.2rem 0.45rem;
+  border: 1px solid #8a6232;
+  background: #fffaf0;
+  color: #24180f;
+  white-space: nowrap;
+  opacity: 0;
+}
+
+.copy-button[data-copied] + .tip,
+.copy-button[data-failed] + .tip {
+  opacity: 1;
+}
+
+#color-text-input::selection,
+.code-field::selection {
+  background: #6e2424;
+  color: #fff8ee;
+}
+
+@media (pointer: coarse) {
+  .swatch,
+  .dialog-head button,
+  .copy-button,
+  input[type="color"] {
+    min-block-size: 3.25rem;
+  }
+}
+
+@media (forced-colors: active) {
+  dialog,
+  .dialog-head {
+    border-color: CanvasText;
+    background: Canvas;
+    color: CanvasText;
+  }
+
+  dialog::backdrop {
+    background: Canvas;
+  }
+
+  #color-text-input,
+  .code-field,
+  fieldset,
+  .tip {
+    border: 1px solid CanvasText;
+    background: Canvas;
+    color: CanvasText;
+  }
+
+  .copy-button,
+  .dialog-head button,
+  .swatch {
+    border: 1px solid ButtonText;
+    background: ButtonFace;
+    color: ButtonText;
+    forced-color-adjust: auto;
+  }
+
+  .preview {
+    border: 1px solid CanvasText;
+  }
+}

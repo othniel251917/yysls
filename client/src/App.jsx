@@ -1,61 +1,26 @@
-import { useEffect, useState } from 'react'
+import ColorTextDialog, { COLOR_TEXT_DIALOG_ID } from './ColorTextDialog.jsx'
 import './App.css'
 
 /**
- * 拉取后端健康检查结果。
- * @returns {Promise<{ ok: boolean, service: string }>} 健康检查数据
- */
-async function fetchHealth() {
-  const response = await fetch('/api/health')
-  if (!response.ok) {
-    throw new Error(`请求失败：${response.status}`)
-  }
-  return response.json()
-}
-
-/**
- * 应用首页，展示与后端的连接状态。
+ * 工具首页。文案着色在对话框里完成。
  * @returns {import('react').JSX.Element} 页面
  */
 function App() {
-  const [status, setStatus] = useState('loading')
-  const [message, setMessage] = useState('')
-
-  useEffect(() => {
-    let cancelled = false
-
-    fetchHealth()
-      .then((data) => {
-        if (cancelled) {
-          return
-        }
-        setStatus('ok')
-        setMessage(data.service)
-      })
-      .catch((error) => {
-        if (cancelled) {
-          return
-        }
-        setStatus('error')
-        setMessage(error instanceof Error ? error.message : '无法连接后端')
-      })
-
-    return () => {
-      cancelled = true
-    }
-  }, [])
-
   return (
-    <main>
-      <h1>yysls</h1>
-      {status === 'loading' ? (
+    <main className="hall">
+      <h1 className="masthead">燕云十六声</h1>
+      <section className="tool-card" aria-labelledby="color-tool-title">
+        <p className="tool-kicker">常用工具</p>
+        <h2 id="color-tool-title">文案着色</h2>
         <p>
-          正在连接后端
-          <progress aria-label="正在连接后端" />
+          写下想用的句子，选中其中一段，再点一种颜色。
+          <span className="nowrap">复制颜色码，贴进游戏即可。</span>
         </p>
-      ) : null}
-      <p role="status">{status === 'ok' ? `后端已连接（${message}）` : ''}</p>
-      <p role="alert">{status === 'error' ? message : ''}</p>
+        <button type="button" command="show-modal" commandFor={COLOR_TEXT_DIALOG_ID}>
+          打开文案着色
+        </button>
+      </section>
+      <ColorTextDialog />
     </main>
   )
 }

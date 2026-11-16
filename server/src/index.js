@@ -1,6 +1,9 @@
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import express from 'express'
 
-const port = 3001
+const port = readPort()
+const clientDist = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../client/dist')
 
 /**
  * 返回服务健康状态。
@@ -19,18 +22,31 @@ function sendHealth(_req, res) {
 function createApp() {
   const app = express()
   app.get('/api/health', sendHealth)
+  app.use(express.static(clientDist))
   return app
 }
 
 /**
- * 在指定端口启动 HTTP 服务。
+ * 读取监听端口。未设置或不是正整数时用 3001。
+ * @returns {number} 端口
+ */
+function readPort() {
+  const parsed = Number(process.env.PORT)
+  if (Number.isInteger(parsed) && parsed > 0) {
+    return parsed
+  }
+  return 3001
+}
+
+/**
+ * 在指定端口启动 HTTP 服务，并对外网开放。
  * @param {number} listenPort 监听端口
  * @returns {void}
  */
 function startServer(listenPort) {
   const app = createApp()
-  app.listen(listenPort, () => {
-    console.log(`server listening on http://localhost:${listenPort}`)
+  app.listen(listenPort, '0.0.0.0', () => {
+    console.log(`server listening on http://0.0.0.0:${listenPort}`)
   })
 }
 
